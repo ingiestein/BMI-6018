@@ -1,0 +1,13 @@
+.DS_Store
+
+# Latex
+*.aux
+*.bcf
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+*.xdv
