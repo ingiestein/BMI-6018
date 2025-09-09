@@ -16,19 +16,21 @@ def break_array( mix_array:np.ndarray, rows:int, cols:int) -> np.ndarray:
     return mix_array
 
 if __name__ == "__main__":
-      # generate my random array with errant string
+
+      # generate my random array
     my_array = build_random_2d_array()
+
       # iterate through each entry in the numpy array, (iterating an "object" np array is a little funny)
     with np.nditer(my_array, flags=['refs_ok'], op_flags=['readwrite']) as it:
         for item in it:
 
-            val = item % 2
-            print(val, item)
-            #
-            # try:
-            #     #attempt a modulus on the value. should error for any string.
-            #     val = item%2
-            #     print(val,item)
-            # except Exception as e:
-            #     print(e, item)
+            # val = item % 2 # perform modulus on value
+            # print(val)
+
+            try:
+                #attempt a modulus on the value. should error for any string.
+                val = item%2
+                print(val,item)
+            except Exception as e:
+                print(e, item)
 
