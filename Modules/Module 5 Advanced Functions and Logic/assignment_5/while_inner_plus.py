@@ -1,5 +1,10 @@
 
 def stacked_while(input_list:list)->[int]:
+    """
+    using a while statement and a rolling list of item to check, figure out the deepest list.
+    :param input_list: the testing list
+    :return: returns the deepest list
+    """
     level = 0 #initial depth
     stack = [(level, input_list)] # rolling stack
     max_level = 0 # starting max level

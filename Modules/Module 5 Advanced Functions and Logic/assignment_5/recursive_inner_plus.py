@@ -16,15 +16,15 @@ def recusion_mother(inlist):
         :return: returns the deepest list after recusions is done and the current max level
         """
         for value in inlist:
-            if isinstance(value,list):
-                if recursionlevel > maxlevel:
-                    currentlist = value
-                    maxlevel = recursionlevel
-                currentlist, maxlevel = recursive_inner(value,recursionlevel+1,maxlevel,currentlist)
+            if isinstance(value,list): #testing if list
+                if recursionlevel > maxlevel: #comparing recursion level to our max level
+                    currentlist = value # if we're deeper, update our list.
+                    maxlevel = recursionlevel #if we're deeper, update level
+                currentlist, maxlevel = recursive_inner(value,recursionlevel+1,maxlevel,currentlist), #go another step
         return currentlist, maxlevel
 
-    deepest_list,_ = recursive_inner(inlist)
-    return [x+1 for x in deepest_list]
+    deepest_list,_ = recursive_inner(inlist) # don't need the depth, so throw away that value when unpacking
+    return [x+1 for x in deepest_list] # add 1 to each value and create a new list
 
 
 if __name__ == "__main__":
@@ -41,4 +41,6 @@ if __name__ == "__main__":
     second_list = [1, 2, 3, 4, [5, 6, 7, [8, 9]]]
 
     output = recusion_mother(input_list)
+    print(output)
+    output = recusion_mother(second_list)
     print(output)
