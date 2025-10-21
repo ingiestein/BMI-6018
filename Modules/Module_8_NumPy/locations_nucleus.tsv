@@ -1,0 +1,39 @@
+Subcellular location ID	Name	Category	Gene Ontologies	Is a
+SL-0191	Nucleus	Cellular component	GO:0005634:nucleus	
+SL-0198	Perinuclear region	Cellular component	GO:0048471:perinuclear region of cytoplasm	
+SL-0382	Host perinuclear region	Cellular component	GO:0044220:host cell perinuclear region of cytoplasm	
+SL-0178	Nucleus envelope	Cellular component	GO:0005635:nuclear envelope	
+SL-0180	Nucleus lamina	Cellular component	GO:0005652:nuclear lamina	
+SL-0181	Nucleus matrix	Cellular component	GO:0016363:nuclear matrix	
+SL-0182	Nucleus membrane	Cellular component	GO:0031965:nuclear membrane	SL-0162; Membrane; LOCATION
+SL-0186	Nucleus speckle	Cellular component	GO:0016607:nuclear speck	SL-0494; Nuclear body; LOCATION
+SL-0414	Host nucleus	Cellular component	GO:0042025:host cell nucleus	
+SL-0189	Nucleomorph	Cellular component	GO:0033009:nucleomorph	
+SL-0419	Host nucleus inner membrane	Cellular component	GO:0044201:host cell nuclear inner membrane	SL-0418; Host nucleus membrane; LOCATION
+SL-0229	Protoplasm	Cellular component	GO:0005622:intracellular anatomical structure	
+SL-0381	Host cytoplasm	Cellular component	GO:0030430:host cell cytoplasm	
+SL-0187	Nucleoid	Cellular component	GO:0009295:nucleoid	
+SL-0139	Chloroplast nucleoid	Cellular component	GO:0042644:chloroplast nucleoid	
+SL-0140	Plastid nucleoid	Cellular component	GO:0042646:plastid nucleoid	
+SL-0269	Mitochondrion nucleoid	Cellular component	GO:0042645:mitochondrial nucleoid	
+SL-0179	Nucleus inner membrane	Cellular component	GO:0005637:nuclear inner membrane	SL-0182; Nucleus membrane; LOCATION
+SL-0183	Nucleus outer membrane	Cellular component	GO:0005640:nuclear outer membrane	SL-0182; Nucleus membrane; LOCATION
+SL-0184	Nucleus intermembrane space	Cellular component	GO:0005641:nuclear envelope lumen	
+SL-0415	Host nucleus envelope	Cellular component	GO:0044199:host cell nuclear envelope	
+SL-0416	Host nucleus lamina	Cellular component	GO:0044203:host cell nuclear lamina	
+SL-0417	Host nucleus matrix	Cellular component	GO:0044204:host cell nuclear matrix	
+SL-0418	Host nucleus membrane	Cellular component	GO:0044200:host cell nuclear membrane	SL-0380; Host membrane; LOCATION
+SL-0190	Nucleoplasm	Cellular component	GO:0005654:nucleoplasm	
+SL-0486	Target cell cytoplasm	Cellular component		SL-0487; Target cell; LOCATION
+SL-0413	Host nucleoplasm	Cellular component	GO:0044095:host cell nucleoplasm	
+SL-0446	Host nucleus outer membrane	Cellular component	GO:0044202:host cell nuclear outer membrane	SL-0418; Host nucleus membrane; LOCATION
+SL-0199	Perinuclear theca	Cellular component	GO:0033011:perinuclear theca	
+SL-0412	Host nucleolus	Cellular component	GO:0044196:host cell nucleolus	
+SL-0553	U-body	Cellular component		SL-0495; Cytoplasmic ribonucleoprotein granule; LOCATION
+SL-0521	Golgi outpost	Cellular component		SL-0132; Golgi apparatus; LOCATION
+SL-0086	Cytoplasm	Cellular component	GO:0005737:cytoplasm	
+SL-0007	Acrosome	Cellular component	GO:0001669:acrosomal vesicle	SL-0244; Secretory vesicle; LOCATION
+SL-0031	Cajal body	Cellular component	GO:0015030:Cajal body	SL-0494; Nuclear body; LOCATION
+SL-0465	PML body	Cellular component	GO:0016605:PML body	SL-0494; Nuclear body; LOCATION
+SL-0148	Invadopodium	Cellular component		SL-0038; Cell junction; LOCATION, SL-0280; Cell projection; LOCATION
+SL-0488	Inflammasome	Cellular component	GO:0061702:canonical inflammasome complex	
