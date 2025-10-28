@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+
+#%% Libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+#%% Importing Data
+flights_data = pd.read_csv('flights.csv')
+flights_data.head(10)
+weather_data_pd = pd.read_csv('weather.csv')
+weather_data_np = weather_data_pd.to_numpy()
+#%% Pandas Data Filtering/Sorting Question Answering
+#use flights_data
+
+#Question 1 How many flights were there from JFK to SLC? Int
+q_1 
+#Question 2 How many airlines fly to SLC? Should be int
+q_2 
+#Question 3 What is the average arrival delay for flights to RDU? float
+q_3
+#Question 4 What proportion of flights to SEA come from the two NYC airports (LGA and JFK)?  float
+q_4
+
+#Question 5 Which date has the largest average depature delay? Pd slice with date and float
+#please make date a column. Preferred format is 2013/1/1 (y/m/d)
+q_5
+
+#Question 6 Which date has the largest average arrival delay? pd slice with date and float
+q_6
+
+#Question 7 Which flight departing LGA or JFK in 2013 flew the fastest? pd slice with tailnumber and speed
+#speed = distance/airtime
+q_7
+
+#Question 8 Replace all nans in the weather pd dataframe with 0s. Pd with no nans
+q_8
+
+#%% Numpy Data Filtering/Sorting Question Answering
+#Use weather_data_np
+#Question 9 How many observations were made in Feburary? Int
+q_9 
+#Question 10 What was the mean for humidity in February? Float
+q_10
+#Question 11 What was the std for humidity in February? Float
+q_11
