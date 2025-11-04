@@ -31,7 +31,8 @@ def db_aggregation(df:pd.DataFrame):
     # Make it so we can see all the columns
     pd.set_option('display.max_columns', None)
 
-    # print the DF with the mask, aggregating all the numbers by mean, std, min, max
+    # print the DF with the mask, aggregating all the number columns by mean, std, min, max
+    print("\nAggregation.")
     print(df[numeric_cols].agg(['mean', 'std', 'min', 'max']))
 
 def db_itter(df:pd.DataFrame):
@@ -49,12 +50,29 @@ def db_itter(df:pd.DataFrame):
     print("\nFast Sum: ", long)
 
 def db_groupby(df:pd.DataFrame):
-    #group the DF by gender, then select just the first entry of each to display/print
-    print(df.groupby("gender").first())
+    print("\nGroupby function.")
+    # get the strings from df['weight']. the strings are in the format [num-num), use the .str.extract to find string groups based on a regex pattern
+    # which then makes a 2 column df, convert these string digits to float(NaN would fail with int or other options)
+    # then take the two generated columns, and find the mean row by row as a vectorized computation
+    # place this final average back into the original df as a new column "weight_number"
+    df["weight_num"] = df['weight'].str.extract(r'\[(\d+)-(\d+)').astype(float).mean(axis=1)
+    #do the same thing for the age of the person as they are stored like this: [num-num)
+    df["age_num"] = df["age"].str.extract(r'\[(\d+)-(\d+)').astype(float).mean(axis=1)
+    # print(df["weight_num"])
+    print(df.groupby(["gender","race"]).agg(
+        average_weight=('weight_num','mean'),
+        average_time=('time_in_hospital','mean'),
+        average_age=('age_num','mean')
+
+    ))
 
 
 if __name__ == "__main__":
     data = load_db()
+    data.info()
+    print(type(data["weight"][0]))
+    fullstrings = (data["age"] != '?')
+    print(data[fullstrings]["age"])
 
     # print raw DF for comparison
     print("Unchanged DataFrame")
