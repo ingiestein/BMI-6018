@@ -73,6 +73,7 @@ def viz_1():
     utah_ts = state_sort("Utah")
 
     vis_1_fig, vis_1_ax = plt.subplots(figsize=(14, 8))
+    vis_1_fig.suptitle("Vis_1")
 
 
     top_county = get_top_county(utah_ts)
@@ -97,7 +98,7 @@ def viz_1():
 
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # moves legend outside
     plt.tight_layout()
-    plt.show()
+
 
 
 
@@ -115,6 +116,8 @@ and readable
 
 def vis_2():
     vis_2_fig, vis_2_ax = plt.subplots(figsize=(14, 8))
+    vis_2_fig.suptitle("Vis_2")
+
 
     florida_ts = state_sort("Florida")
     utah_ts = state_sort("Utah")
@@ -140,7 +143,6 @@ def vis_2():
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # moves legend outside
     vis_2_ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
     plt.tight_layout()
-    plt.show()
 
 
 #%% viz 3
@@ -159,8 +161,7 @@ def vis_3():
     top_df = top_df.sort_values("Date")
     top_df["New_Cases"] = top_df["Cases"].diff().fillna(top_df["Cases"])  # ← correct first day
 
-    fig, ax1 = plt.subplots(figsize=(14, 8))
-
+    vis_3_fig, ax1 = plt.subplots(figsize=(14, 8))
 
     color_cumulative = "#1f77b4"
     ax1.plot(top_df["Date"], top_df["Cases"],
@@ -181,7 +182,7 @@ def vis_3():
 
 
     # === Title and combined legend ===
-    fig.suptitle(f"{top_county} County, Utah — COVID-19 Cases Over Time",
+    vis_3_fig.suptitle(f"Vis_3\n{top_county} County, Utah — COVID-19 Cases Over Time",
                  fontsize=16, fontweight="bold")
 
     # Combine legends from both axes
@@ -192,7 +193,6 @@ def vis_3():
 
     # Final layout
     plt.tight_layout()
-    plt.show()
 
 #%% viz 4
 '''
@@ -214,7 +214,9 @@ def viz_4():
     cmap = colormaps['nipy_spectral']
     colors = [cmap(1. * i / len(utah_pivot.columns)) for i in range(len(utah_pivot.columns))]
 
-    fig, ax = plt.subplots(figsize=(16, 9))
+    vis_4_fig, ax = plt.subplots(figsize=(16, 9))
+    vis_4_fig.suptitle("Vis_4")
+
 
     utah_pivot.plot.bar(stacked=True, ax=ax, width=0.8, color=colors)
 
@@ -241,7 +243,7 @@ def viz_4():
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
 
     plt.tight_layout()
-    plt.show()
+
 #%% extra credit (5 points)
 '''
 Use Seaborn to create a grouped box plot of all reported states. Each boxplot
@@ -265,7 +267,8 @@ def viz_5():
     print(state_totals)
 
     # THE FIXED, BEAUTIFUL VERSION
-    fig, ax = plt.subplots(figsize=(14, 8))
+    vis_5_fig, ax = plt.subplots(figsize=(14, 8))
+    vis_5_fig.suptitle("Vis_5")
 
     sns.boxplot(x="Province_State", y="State_Total_Cases", hue="State_Total_Cases", ax=ax, data=state_totals)
     plt.title("COVID-19 Cases By State")
@@ -274,11 +277,11 @@ def viz_5():
     ax.set_xlabel('State',fontsize=10)
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
     plt.tight_layout()
-    plt.show()
 
 if __name__ == '__main__':
-    # viz_1()
-    # vis_2()
-    # vis_3()
-    # viz_4()
+    viz_1()
+    vis_2()
+    vis_3()
+    viz_4()
     viz_5()
+    plt.show()
