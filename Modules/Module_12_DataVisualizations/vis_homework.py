@@ -54,10 +54,13 @@ def state_sort(state):
     state_ts = state_ts.sort_values(['County', 'Date'])
     return state_ts
 
+
+#helper function to find the county with the most cases at the end of the observation period.
 def get_top_county(state_ts):
     latest_loc = state_ts.loc[state_ts["Date"]==state_ts["Date"].max()]
     top_county=latest_loc.loc[latest_loc["Cases"].idxmax(),'County']
     return top_county
+
 
 def viz_1():
     # %% viz 1
@@ -71,8 +74,7 @@ def viz_1():
     '''
 
     utah_ts = state_sort("Utah")
-
-    vis_1_fig, vis_1_ax = plt.subplots(figsize=(14, 8))
+    vis_1_fig, vis_1_ax = plt.subplots(figsize=(14, 9))
     vis_1_fig.suptitle("Vis_1")
 
     top_county = get_top_county(utah_ts)
