@@ -38,19 +38,19 @@ def state_sort(state):
 
 
     state_ts = state_df.melt(
-        id_vars=['Admin2'],  # Admin2 = county name
-        value_vars=[col for col in state_df.columns if '/' in col],  # all date columns
+        id_vars=['Admin2'],
+        value_vars=[col for col in state_df.columns if '/' in col],
         var_name='Date',
-        value_name='Cases'  # or 'Deaths' if you're plotting deaths
+        value_name='Cases'
     )
 
-    # Step 2: Convert the date column from string like '1/22/20' → real datetime
+
     state_ts['Date'] = pd.to_datetime(state_ts['Date'], format='%m/%d/%y')
 
-    # Step 3: Clean county name (Admin2 is usually the county)
+
     state_ts['County'] = state_ts['Admin2'].fillna('Unknown')
 
-    # Step 4: Sort by date
+
     state_ts = state_ts.sort_values(['County', 'Date'])
     return state_ts
 
@@ -75,9 +75,7 @@ def viz_1():
     vis_1_fig, vis_1_ax = plt.subplots(figsize=(14, 8))
     vis_1_fig.suptitle("Vis_1")
 
-
     top_county = get_top_county(utah_ts)
-
     top_county_ts = utah_ts.loc[utah_ts["County"]==top_county]
     top_county_ts.pivot(index="Date",columns="County",values="Cases").plot(linewidth=2.5,
                                                                       color="red",
@@ -98,10 +96,6 @@ def viz_1():
 
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # moves legend outside
     plt.tight_layout()
-
-
-
-
 
 #%% viz 2
 '''
@@ -159,7 +153,7 @@ def vis_3():
 
     top_df = utah_ts[utah_ts["County"] == top_county].copy()
     top_df = top_df.sort_values("Date")
-    top_df["New_Cases"] = top_df["Cases"].diff().fillna(top_df["Cases"])  # ← correct first day
+    top_df["New_Cases"] = top_df["Cases"].diff().fillna(top_df["Cases"])
 
     vis_3_fig, ax1 = plt.subplots(figsize=(14, 8))
 
@@ -171,7 +165,7 @@ def vis_3():
     ax1.tick_params(axis="y", labelcolor=color_cumulative)
     ax1.grid(True, alpha=0.3)
 
-    # === Right axis: Daily new cases (bars) ===
+
     ax2 = ax1.twinx()
     color_new = "#d62728"  # strong red
     ax2.bar(top_df["Date"], top_df["New_Cases"],
@@ -181,17 +175,16 @@ def vis_3():
     ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
 
 
-    # === Title and combined legend ===
+
     vis_3_fig.suptitle(f"Vis_3\n{top_county} County, Utah — COVID-19 Cases Over Time",
                  fontsize=16, fontweight="bold")
 
-    # Combine legends from both axes
+
     lines1, labels1 = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines1 + lines2, labels1 + labels2,
                loc="upper left", frameon=True, fancybox=True)
 
-    # Final layout
     plt.tight_layout()
 
 #%% viz 4
@@ -253,10 +246,10 @@ cases. (https://seaborn.pydata.org/examples/grouped_boxplot.html)
 def viz_5():
 
     state_ts = covid_df.melt(
-        id_vars=['Province_State',"Admin2"],  # Admin2 = county name
-        value_vars=[col for col in covid_df.columns if '/' in col],  # all date columns
+        id_vars=['Province_State',"Admin2"],
+        value_vars=[col for col in covid_df.columns if '/' in col],
         var_name='Date',
-        value_name='Cases'  # or 'Deaths' if you're plotting deaths
+        value_name='Cases'
     )
 
     state_ts["Date"] = pd.to_datetime(state_ts["Date"],format="%m/%d/%y")
@@ -266,7 +259,6 @@ def viz_5():
     state_totals = latest_by_county.groupby("Province_State")["Total_Cases"].sum().reset_index().rename(columns={"Total_Cases":"State_Total_Cases"}).sort_values("State_Total_Cases", ascending=False)
     print(state_totals)
 
-    # THE FIXED, BEAUTIFUL VERSION
     vis_5_fig, ax = plt.subplots(figsize=(14, 8))
     vis_5_fig.suptitle("Vis_5")
 
