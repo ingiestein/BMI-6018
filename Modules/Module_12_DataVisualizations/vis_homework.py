@@ -34,23 +34,16 @@ named.
 '''
 #Helper function for sorting the date by State.
 def state_sort(state):
+
     state_df = covid_df[covid_df['Province_State'].str.contains(rf'{state}', na=False)]
-
-
     state_ts = state_df.melt(
         id_vars=['Admin2'],
         value_vars=[col for col in state_df.columns if '/' in col],
         var_name='Date',
         value_name='Cases'
     )
-
-
     state_ts['Date'] = pd.to_datetime(state_ts['Date'], format='%m/%d/%y')
-
-
     state_ts['County'] = state_ts['Admin2'].fillna('Unknown')
-
-
     state_ts = state_ts.sort_values(['County', 'Date'])
     return state_ts
 
