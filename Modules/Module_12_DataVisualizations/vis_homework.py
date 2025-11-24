@@ -199,8 +199,14 @@ def viz_4():
 
     utah_pivot = utah_daily.pivot(index='Date', columns='County', values='Cases')
 
-    cmap = colormaps['nipy_spectral']
-    colors = [cmap(1. * i / len(utah_pivot.columns)) for i in range(len(utah_pivot.columns))]
+    #generate colors.
+    cmap = colormaps['Set1']
+    n = len(utah_pivot.columns)
+
+    # define array of colors that matches the length of the number of counties.
+    # assign a color to each country that's different using the modulous operator
+    base_colors = [cmap(i / 9) for i in range(9)]
+    colors = [base_colors[i % len(base_colors)] for i in range(n)]
 
     vis_4_fig, ax = plt.subplots(figsize=(16, 9))
     vis_4_fig.suptitle("Vis_4")
@@ -219,9 +225,10 @@ def viz_4():
               bbox_to_anchor=(1.02, 1), loc='upper left',
               frameon=False)
 
+    # limit the ticks
     monthly_ticks = utah_pivot.index.to_series().resample('MS').first()
-
     tick_positions = [utah_pivot.index.get_loc(date) for date in monthly_ticks]
+
     ax.set_xticks(tick_positions)
     ax.set_xticklabels([
         date.strftime('%b %Y') if date.month in [1,5,9] else ''
@@ -247,20 +254,46 @@ def viz_5():
         value_name='Cases'
     )
 
-    state_ts["Date"] = pd.to_datetime(state_ts["Date"],format="%m/%d/%y")
-    latest_by_county = state_ts.sort_values('Date').groupby(["Province_State","Admin2"]).last()["Cases"].reset_index().rename(columns={"Cases":"Total_Cases"})
-    print(latest_by_county)
+    state_ts["Date"] = pd.to_datetime(state_ts["Date"], format="%m/%d/%y")
 
-    state_totals = latest_by_county.groupby("Province_State")["Total_Cases"].sum().reset_index().rename(columns={"Total_Cases":"State_Total_Cases"}).sort_values("State_Total_Cases", ascending=False)
-    print(state_totals)
+    # get daily totals of all counties
+    state_daily_totals = (state_ts
+                          .groupby(["Province_State","Date"])["Cases"]
+                          .sum()
+                          .reset_index()
+                          .sort_values(["Province_State","Date"])
+                          )
+    # get new cases rather than total cases
+    state_daily_totals["New_Daily_Cases"] = (state_daily_totals
+                                             .sort_values(["Province_State","Date"])
+                                             .groupby(["Province_State"])["Cases"]
+                                             .diff()
+                                             )
+
+    state_daily_totals["New_Daily_Cases"] = (state_daily_totals["New_Daily_Cases"]
+                                             .fillna(state_daily_totals["Cases"])
+                                             )
+    # determine which state has the highest mean for sorting purposes
+    state_order = (state_daily_totals
+                   .groupby(["Province_State"])["New_Daily_Cases"]
+                   .median()
+                   .sort_values(ascending=False)
+                   .index
+                   .tolist())
 
     vis_5_fig, ax = plt.subplots(figsize=(14, 8))
     vis_5_fig.suptitle("Vis_5")
 
-    sns.boxplot(x="Province_State", y="State_Total_Cases", hue="State_Total_Cases", ax=ax, data=state_totals)
-    plt.title("COVID-19 Cases By State")
+    sns.boxplot(
+        x="Province_State",
+        y="New_Daily_Cases",
+        ax=ax,
+        data=state_daily_totals,
+        order=state_order)
+
+    plt.title("Covid-19 New Daily Cases BoxPlot by Order of Highest Median New Cases")
     plt.xticks(rotation=90)
-    ax.set_ylabel('Total Cases',fontsize=10)
+    ax.set_ylabel('Daily Cases',fontsize=10)
     ax.set_xlabel('State',fontsize=10)
     ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f'{int(x):,}'))
     plt.tight_layout()
