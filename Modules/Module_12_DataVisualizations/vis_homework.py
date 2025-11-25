@@ -291,7 +291,7 @@ def viz_5():
         data=state_daily_totals,
         order=state_order)
 
-    plt.title("Covid-19 New Daily Cases BoxPlot by Order of Total Cases")
+    plt.title("Covid-19 New Daily Cases BoxPlot by Order of Total Final Cases")
     plt.xticks(rotation=90)
     ax.set_ylabel('Daily Cases',fontsize=10)
     ax.set_xlabel('State',fontsize=10)
