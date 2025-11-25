@@ -275,8 +275,8 @@ def viz_5():
                                              )
     # determine which state has the highest mean for sorting purposes
     state_order = (state_daily_totals
-                   .groupby(["Province_State"])["New_Daily_Cases"]
-                   .median()
+                   .groupby(["Province_State"])["Cases"]
+                   .max()
                    .sort_values(ascending=False)
                    .index
                    .tolist())
@@ -291,7 +291,7 @@ def viz_5():
         data=state_daily_totals,
         order=state_order)
 
-    plt.title("Covid-19 New Daily Cases BoxPlot by Order of Highest Median New Cases")
+    plt.title("Covid-19 New Daily Cases BoxPlot by Order of Total Cases")
     plt.xticks(rotation=90)
     ax.set_ylabel('Daily Cases',fontsize=10)
     ax.set_xlabel('State',fontsize=10)
@@ -299,9 +299,9 @@ def viz_5():
     plt.tight_layout()
 
 if __name__ == '__main__':
-    viz_1()
-    vis_2()
-    vis_3()
-    viz_4()
+    # viz_1()
+    # vis_2()
+    # vis_3()
+    # viz_4()
     viz_5()
     plt.show()
