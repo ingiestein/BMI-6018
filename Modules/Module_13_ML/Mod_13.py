@@ -40,11 +40,15 @@ categorical_cols = diabetes_data.select_dtypes(include=['object']).columns.tolis
 # which is a type of dummy encoding for the categorial features.
 # normalize numerical columns be the same size with the standard scaler transform to
 # a unit variance.
-
-preprocesser = ColumnTransformer([
-    ('num', StandardScaler(), numeric_cols),
-    ('cat', OneHotEncoder(drop='first', sparse_output=False), categorical_cols)
-    ])
+# I selected "sparse_output=True" because of all the empty/zero parts of the data in the large dataset.
+# remainder='drop' is default, and likely unecessary because I've already specified which columns I wanted to drop
+# previously. 
+preprocesser = ColumnTransformer(transformers=
+                            [
+                            ('num', StandardScaler(), numeric_cols),
+                            ('cat', OneHotEncoder(drop='first', sparse_output=True), categorical_cols)
+                            ],
+                            remainder='drop')
 
 # apply to df
 processed_data = preprocesser.fit_transform(diabetes_data)
