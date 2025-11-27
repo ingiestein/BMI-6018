@@ -1,8 +1,5 @@
-# %%
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
-import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.cluster import KMeans
@@ -26,27 +23,24 @@ diabetes_data = diabetes_data.drop(['encounter_id',
                                     'max_glu_serum',
                                     'change',
                                     'diabetesMed',
-                                    'A1Cresult',
-                                    'medical_speciality'],
+                                    ],
                                    axis=1,
                                    errors='ignore')
 
 # find numeric/categorical columns
 
-numeric_cols = diabetes_data.select_dtypes(include=['int64']).columns.tolist()
+numeric_cols = diabetes_data.select_dtypes(include=['number']).columns.tolist()
 categorical_cols = diabetes_data.select_dtypes(include=['object']).columns.tolist()
 
 # now convert categorical columns to numerical ones using "OneHotEncoder" method
 # which is a type of dummy encoding for the categorial features.
 # normalize numerical columns be the same size with the standard scaler transform to
 # a unit variance.
-# I selected "sparse_output=True" because of all the empty/zero parts of the data in the large dataset.
-# remainder='drop' is default, and likely unecessary because I've already specified which columns I wanted to drop
-# previously. 
+
 preprocesser = ColumnTransformer(transformers=
                             [
                             ('num', StandardScaler(), numeric_cols),
-                            ('cat', OneHotEncoder(drop='first', sparse_output=True), categorical_cols)
+                            ('cat', OneHotEncoder(drop='first', sparse_output=False), categorical_cols)
                             ],
                             remainder='drop')
 
@@ -66,7 +60,7 @@ print("Starting elbow calculation.")
 inertia = []
 start = time.perf_counter()
 for k in tqdm(k_len):
-    k_means = KMeans(n_clusters=k)
+    k_means = KMeans(n_clusters=k, n_init=10, random_state=42)
     k_means.fit(processed_data_2d)
     inertia.append(k_means.inertia_)
 end = time.perf_counter()
@@ -91,7 +85,7 @@ plt.plot(k_len, inertia,'bo-')
 
 k_opt = 3 #approximate optimun
 
-kmeans_fin = KMeans(n_clusters=k_opt, n_init=100)
+kmeans_fin = KMeans(n_clusters=k_opt, n_init=100,random_state=42)
 cluster_labels = kmeans_fin.fit_predict(processed_data_2d)
 centroids = kmeans_fin.cluster_centers_
 
@@ -106,13 +100,23 @@ plt.xlabel(f'First Principal Component ({pca_2d.explained_variance_ratio_[0]:.1%
 plt.ylabel(f'Second Principal Component ({pca_2d.explained_variance_ratio_[1]:.1%} variance)')
 plt.legend()
 plt.grid(True, alpha=0.3)
-plt.show()
 
 """
-The centroids split the data into three section, a top, a right, and a left section. The data from the diabetes set
-doesn't contain much continuous data, with categorical data being predominant. There are a significant number of outliers
-along the second principle component, which is likely skewing the centroid somewhat. Despite that the centroids are very
-close to each other with this analysis. 
+The centroids split the data into three section, a top, a right, and a left section. There are a significant 
+number of outliers along the second principle component, which is likely skewing the centroid locations somewhat. 
+Despite that the centroids are very close to each other with this analysis likely related to the large number
+of categorical columns.  
 """
+
+# Here is some post analysis of the clusters to try and see which categories and values were associated
+# with each cluster.
+diabetes_data["cluster"] = cluster_labels
+print("Number of patients in each cluster: \n",diabetes_data['cluster'].value_counts())
+print("Averages for each numeric column by cluster: \n",diabetes_data.groupby('cluster')[numeric_cols].mean())
+for col in ['age', 'race', 'gender', 'admission_type_id', 'discharge_disposition_id']:
+    print("\n---", col, "---")
+    print(diabetes_data.groupby('cluster')[col].value_counts(normalize=True))
+
+plt.show()
 
 
