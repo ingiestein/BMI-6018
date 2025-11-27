@@ -10,7 +10,7 @@ import sys
 
 diabetes_data = pd.read_csv('dmdata/diabetic_data.csv')
 
-diabetes_data.info() #what columns are what
+# diabetes_data.info() #what columns are what
 
 # remove categorical columns likely contributing more noise than value, and identifier columns which play no role.
 diabetes_data = diabetes_data.drop(['encounter_id',
