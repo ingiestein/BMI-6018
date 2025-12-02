@@ -1,0 +1,69 @@
+% Setting up the document class
+\documentclass[12pt, letter]{article}
+
+% Including essential packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{lipsum} % For dummy text, remove in actual use
+\usepackage{listings}
+
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,       % small instead of tiny if you find tiny too small
+    keywordstyle=\color{blue}\bfseries,
+    identifierstyle=,
+    stringstyle=\color{red!70!black},
+    commentstyle=\color{green!50!black}\itshape,
+    morecomment=[l][\color{green!50!black}\itshape]{#},
+    keywords={def,class,import,from,as,return,raise,try,except,finally,
+              with,yield,async,await,lambda,and,or,not,in,is,None,True,False},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    tabsize=4,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{gray!5},
+    captionpos=b
+}
+
+% Configuring page geometry
+\geometry{margin=1in}
+
+% Setting up header and footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{Stein Ingebretsen 00460309} % Author's name in the footer
+\fancyhead[L]{Fall 2025 --- DBMI 6018 --- Using Python Packages}
+\fancyfoot[C]{\thepage}
+
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt} % No header rule
+\renewcommand{\footrulewidth}{0pt} % Thin footer rule
+\setcounter{secnumdepth}{0}
+% Configuring font (Latin Modern as a reliable choice)
+\usepackage{lmodern}
+
+
+% Beginning the document
+\begin{document}
+
+\section{BeautifulSoup Introduction}
+
+BeautifulSoup is a web scrapping application. It can be used to automate web scraping projects. It can parse html and xml data, quickly allowing a program to identify different parts of a webpage and automate data retrieval. It can be used in conjunction with Selenium to further automate navigation of websites. 
+
+
+
+\begin{lstlisting}
+def hello(name: str) -> str:
+    return f"Hello, {name}!"
+\end{lstlisting}
+
+
+\end{document}
+
